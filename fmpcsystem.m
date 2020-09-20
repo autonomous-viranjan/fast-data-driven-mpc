@@ -1,5 +1,5 @@
 function [SYS,params] = fmpcsystem(sLead0,s0,v0,goal,k)
-%function [SYS,params] = fmpcsystem(sLead0,s0,v0,Uhigh,Xhigh,goal,k)
+
 % System
 T = 20;
 A = cell(T);
@@ -27,12 +27,6 @@ smax = s0'+2;
 smax(T-k+1) = goal+5;
 vmax = v0'+5;
 
-% % concatenated constraints
-% Xmin = [reshape([smin;vmin],[2*T,1]);(Xhigh-10e-10)];
-% Xmax = [reshape([smax;vmax],[2*T,1]);(Xhigh+10e-10)];
-% Umin = [-2*ones(T,1);(Uhigh-10e-10)]; 
-% Umax = [3*ones(T,1);(Uhigh+10e-10)];
-
 % concatenated constraints
 Xmin = reshape([smin;vmin],[2*T,1]);
 Xmax = reshape([smax;vmax],[2*T,1]);
@@ -43,13 +37,6 @@ Umax = 3*ones(T,1);
 Q = [0 0;0 0]; R = 0.5;
 Q_big = kron(eye(T),Q); 
 R_big = kron(eye(T),R);
-
-% % System with reference concatenation
-% A_bigger = [A_big zeros(2*T,2*T);zeros(2*T,2*T) eye(2*T)]; 
-% B_bigger = [B_big zeros(2*T,T);zeros(2*T,T) zeros(2*T,T)];
-% Q_bigger = [Q_big zeros(2*T,2*T);zeros(2*T,2*T) zeros(2*T,2*T)];
-% R_bigger = [R_big R_big;R_big R_big];
-% %R_bigger = [R_big zeros(T);zeros(T) zeros(T)];
 
 % Fast MPC SYS
 SYS.A = A_big;
