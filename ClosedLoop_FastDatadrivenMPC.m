@@ -68,10 +68,10 @@ for i = 1:length(time1)-1
     uLead(i,1) = ((vLead(i+1,1) - vLead(i,1))/Ts) + (1./(2.*M))*rho*Cd*Av*vLead(i,1)^2 + mu*g;
 end
 MPGLead = FuelEfficiencyMPGFordFocus(sLead, vLead, uLead, Ts);
-
-sEgoTotaldmd = zeros(tf,1);
-vEgoTotaldmd = zeros(tf,1);
-uEgoTotaldmd = zeros(tf-1,1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+sEgoTotal = zeros(tf,1);
+vEgoTotal = zeros(tf,1);
+uEgoTotal = zeros(tf-1,1);
 uHost = zeros(T,1);
 %x0 = zeros(2*T,1);
 v0(1) = InitialVelocity;
@@ -93,9 +93,7 @@ for i = 1:NumberTrafficLights
     vHost(1,1) = InitialVelocity;
             
     for k = 1:tf-1
-        
-        %dMin = L/2 + (1.005^(k-1))*sigma*sqrt(log(L^2/(2*pi*(sigma^2)*(beta^2))));
-                        
+                
         [sHigh, vHigh, uHigh, MaxMPG, GaussCPU, SuccesfulBranches, Mean1,...
             Mean2, Mean, Sigma, BranchSuccessPos] = ...
             GaussianMethodFunction(time((i-1)*(tf-1) + k:(i-1)*(tf-1) + tf,1),...
@@ -127,8 +125,7 @@ for i = 1:NumberTrafficLights
         Xhigh = reshape([sHigh(2:end)';vHigh(2:end)'],[2*T,1]);
         sLead0 = sLead(2 + k - 1 + (i-1)*(tf-1):(i-1)*(tf-1) + tf + k - 1);
         Xwarm = Xhigh;
-        Uwarm = uHigh;
-        
+        Uwarm = uHigh;       
                 
             
         %sysd = linearizesystem(Cd,rho,Av,M,v0);       
@@ -141,29 +138,23 @@ for i = 1:NumberTrafficLights
         
         % Update using vehicle longitudinal model.        
         uHost(k,1) = U(1);
-        InitialPosition = InitialPosition + Ts*InitialVelocity;
-        %InitialPosition = X(1) + X0(1); 
+        InitialPosition = InitialPosition + Ts*InitialVelocity;        
         sHost(k+1,1) = InitialPosition;
-        InitialVelocity = InitialVelocity + Ts*(uHost(k,1) - (1/(2*M))*Cd*rho*Av*InitialVelocity^2 - mu*g);
-        %InitialVelocity = X(2) + X0(2);
-        vHost(k+1,1) = InitialVelocity;
         
+        InitialVelocity = InitialVelocity + Ts*(uHost(k,1) - (1/(2*M))*Cd*rho*Av*InitialVelocity^2 - mu*g);        
+        vHost(k+1,1) = InitialVelocity;        
         
         x0 = [InitialPosition;InitialVelocity;X(3:2*T)];
            
     
     end
      
-    sEgoTotaldmd(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k + 1,1) = sHost;
-    vEgoTotaldmd(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k + 1,1) = vHost;
-    uEgoTotaldmd(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k,1) = uHost;
+    sEgoTotal(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k + 1,1) = sHost;
+    vEgoTotal(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k + 1,1) = vHost;
+    uEgoTotal(k + 1 - (tf - 1) + (i-1)*(tf-1):(i-1)*(tf-1) + k,1) = uHost;
     
 end
 CPUTime = toc;
 %%
 CPUTimeIteration = CPUTime/(NumberTrafficLights*(tf-1));
-MPGOptimal = FuelEfficiencyMPGFordFocus(sEgoTotaldmd, vEgoTotaldmd, uEgoTotaldmd, Ts);
-%% save data
-% save('s_fmpcdmd.mat','sEgoTotaldmd');
-% save('u_fmpcdmd.mat','uEgoTotaldmd');
-% save('v_fmpcdmd.mat','vEgoTotaldmd');
+MPGOptimal = FuelEfficiencyMPGFordFocus(sEgoTotal, vEgoTotal, uEgoTotal, Ts);
