@@ -4,4 +4,4 @@ An equivalent convex problem for the original non-convex problem is formulated u
 
 A High-level sampling based planner generates a reference trajectory -- considering uncertainty in V2V communication.
 
-The aim of the EACC is safe longitudinal control while avoiding red light idling and optimizing fuel efficiency. 
+The aim of the EACC is safe longitudinal control while avoiding red light idling and optimizing fuel efficiency -- all this, while being computationally efficient and thus real-time applicable. 
