@@ -36,7 +36,7 @@ sigma = 1;
 beta = 0.01;
 dMin  = zeros(T,1);
 for i=1:T
-    dMin(i) = L/2 + (1.01^(i-1))*sigma*sqrt(log(L^2/(2*pi*(sigma^2)*(beta^2))));
+    dMin(i) = L/2 + (1.01^(i-1))*sigma*sqrt(log(L^2/(2*pi*(((1.01^(i-1))*sigma)^2)*(beta^2))));
 end
 %
 goal = (goal0 + goalGap:goal0:goal0*NumberTrafficLights + goalGap)';
