@@ -1,3 +1,5 @@
+% Author : Viranjan Bhattacharyya
+% Sep 2020 
 function [SYS,params] = fmpcsystem(sLead0,s0,v0,goal,k)
 
 % System
