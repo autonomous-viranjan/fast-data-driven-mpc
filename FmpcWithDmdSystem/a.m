@@ -1,0 +1,15 @@
+sys.A = [0 1; 0 0]; 
+sys.B = [0 1]'; 
+sys.Q = eye(2);
+sys.R =eye(2); 
+sys.xmax = [1000;10];
+sys.xmin = [0;0];
+sys.umin = [-1];
+sys.umax = 1;
+sys.n = length(sys.xmax);
+sys.m=length(sys.umin);
+parames.T = 5;
+params.Qf = eye(2);
+x0 = repmat([1;1],parames.T); 
+U0 = repmat(1,parames.T,1);
+[Xhist,Uhist,telapsed] = fmpc_sim(sys,params,X0,U0,x0,w);
