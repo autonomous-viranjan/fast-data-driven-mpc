@@ -1,0 +1,5 @@
+####### Viranjan Bhattacharyya, Aug 2020 #########
+
+Training Data : From 50.50 MPG solution simulation.
+Gaussian Method Function pre computed for entire
+Journey and then fmincon to improve over it.
