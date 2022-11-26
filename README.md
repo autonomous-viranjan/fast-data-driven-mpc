@@ -6,4 +6,4 @@ A High-level sampling based planner generates a reference trajectory -- consider
 
 The aim of the PCC is safe longitudinal control while avoiding red light idling and optimizing fuel efficiency -- all this, while being computationally efficient and thus real-time applicable. 
 
-Link to paper: (shorturl.at/ceCN6)
+Link to paper: [shorturl.at/ceCN6]
