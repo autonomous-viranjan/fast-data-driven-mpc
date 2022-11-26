@@ -1,4 +1,4 @@
-Fast Model Predictive Controller for an Ecological Predictive Cruise Controller (PCC) for Connected and Automated Vehicles.
+Fast Data-driven Model Predictive Controller for an Ecological Predictive Cruise Controller (PCC) for Connected and Automated Vehicles.
 
 An equivalent convex problem for the original non-convex problem is formulated using a data-driven Linear Model for the nonlinear system.
 
